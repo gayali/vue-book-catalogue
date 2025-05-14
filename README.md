@@ -2,6 +2,10 @@
 
 This project is a **Book Catalogue Web Application** built using modern web technologies. It demonstrates the use of **Vue 3**, **TypeScript**, **Pinia**, **Vue Router**, and **Bootstrap 5** to create a **Single Page Application (SPA)** with dynamic features such as search, pagination, filters, modals, and more. The application fetches book data from the [Gutendex API](https://gutendex.com).
 
+## Demo
+
+Check out the live demo here: [Vue Book Catalogue Demo](https://gayali.github.io/vue-book-catalogue/)
+
 ## Features
 
 - **Dynamic Search**: Search for books dynamically with debounced input to reduce API calls.
