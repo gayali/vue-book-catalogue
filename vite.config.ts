@@ -7,7 +7,7 @@ import path from 'path'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: 'vue-book-catalogue',
+  base: '/vue-book-catalogue/',
   plugins: [vue(), vueDevTools()],
   resolve: {
     alias: {
