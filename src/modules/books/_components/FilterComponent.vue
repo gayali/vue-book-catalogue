@@ -10,7 +10,7 @@
                 <select id="languages" class="form-select" multiple @change="$emit('filter-languages', $event)">
 
                     <template v-for="(language, index) in languagesList" :key="index">
-                        <option :value="language.code" :selected="languages.some(l => l.code === language.code)">{{ language.title }}</option>
+                        <option :value="language.code" :selected="languages.some(l => l === language.code)">{{ language.title }}</option>
                     </template>
                 </select>
             </div>
@@ -24,17 +24,19 @@
     </div>
 </template>
 <script lang="ts">
+
+import type { Language } from '@/interfaces/Language';
 export default {
   name: 'FilterComponent',
   props: {
     languages: {
-      type: Array,
+      type: Array as () => string[],
       default: () => [],
     },
     languagesList: {
-      type: Array,
+      type: Array as () => Language[],
       default: () => [],
-    }
+    },
   },
   emits: ['filter-languages', 'clear-languages', 'search'],
 }

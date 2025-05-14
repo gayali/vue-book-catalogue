@@ -9,7 +9,7 @@
           <div class="input-group my-1">
             <!-- Search Input -->
             <input type="text" name="search" placeholder="Search any book..." aria-label="Search" :value="searchQuery"
-              class="form-control" @input="$emit('searchQuery', $event)" />
+              class="form-control" @input="$emit('search-query', $event)" />
 
             <!-- Clear Filter Button -->
             <span v-if="hasFilters" class="input-group-text" title="Clear Filter">
@@ -41,7 +41,7 @@
           <div class="input-group my-1">
             <span class="input-group-text"><i class="bi bi-sort-down"></i></span>
             <select name="sort" class="form-select form-select-sm form-select-dark"
-              @change="$emit('changeSortBy', $event)">
+              @change="$emit('change-sort-by', $event)">
               <option hidden value="">Sort By</option>
               <template v-for="(sortRow, index) in sortOptions" :key="index">
                 <option :value="sortRow.value" :selected="sortRow.value === sortBy">
@@ -57,7 +57,9 @@
 </template>
 
 <script lang="ts">
+
 import { defineComponent } from 'vue'
+import type { SortOption } from '@/interfaces/SortOption';
 
 export default defineComponent({
   name: 'HeaderComponent',
@@ -79,7 +81,7 @@ export default defineComponent({
       default: false,
     },
     sortOptions: {
-      type: Array,
+      type: Array as () => SortOption[],
       default: () => [
         { title: 'Popular', value: 'popular' },
         { title: 'Ascending', value: 'ascending' },
@@ -87,6 +89,6 @@ export default defineComponent({
       ],
     },
   },
-  emits: ['searchQuery', 'search', 'clear-search', 'open-filtres-modal'],
+  emits: ['search-query', 'search', 'clear-search', 'open-filtres-modal', 'change-sort-by'],
 })
 </script>

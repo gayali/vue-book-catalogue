@@ -7,9 +7,9 @@
       :books-count="booksStore.booksCount"
       :sortBy="sortBy"
       :sortOptions="sortOptions"
-      @changeSortBy="changeSortBy($event)"
+      @change-sort-by="changeSortBy($event)"
       @open-filtres-modal="filtresModal = true"
-      @searchQuery="handleSearchQueryChange($event.target.value)"
+      @search-query="handleSearchQueryChange($event.target.value)"
       @clear-search="clearSearch"
       @search="search"
     />
@@ -40,7 +40,10 @@
 <script lang="ts">
 import { defineAsyncComponent } from 'vue'
 import { useBooksStore } from '@/stores/books'
-import debounce from 'lodash/debounce'
+import { debounce } from 'lodash'
+import type {Query} from '@/interfaces/Query';
+import type { DebouncedFunc } from 'lodash';
+
 
 export default {
   name: 'BooksModule',
@@ -58,7 +61,7 @@ export default {
   data() {
     return {
       searchQuery: '',
-      languages: [],
+      languages:[] as string[],
       filtresModal: false,
       sortBy: '',
       sortOptions: [
@@ -88,7 +91,7 @@ export default {
         { code: 'no', title: 'Norwegian' },
         { code: 'da', title: 'Danish' },
       ],
-      debounceSearch: null,
+      debounceSearch: {} as DebouncedFunc<() => void>,
     }
   },
   beforeMount() {
@@ -103,7 +106,7 @@ export default {
     },
   },
   methods: {
-    handleSearchQueryChange(query) {
+    handleSearchQueryChange(query: string) {
       this.searchQuery = query
       if (this.searchQuery.length > 2) {
         this.debounceSearch()
@@ -113,22 +116,24 @@ export default {
       this.searchQuery = ''
       this.search()
     },
-    changeSortBy(event) {
-      this.sortBy = event.target.value
-      this.search()
+    changeSortBy(event: Event) {
+      const target = event.target as HTMLSelectElement;
+      this.sortBy = target.value;
+      this.search();
     },
-    filterLanguages(event) {
-      this.languages = Array.from(event.target.selectedOptions).map((option) => option.value)
-      this.search()
+    filterLanguages(event: Event) {
+      const target = event.target as HTMLSelectElement;
+      this.languages = Array.from(target.selectedOptions).map((option: HTMLOptionElement) => option.value);
+      this.search();
     },
     clearLanguages() {
       this.languages = []
       this.search()
     },
     search() {
-      let query = {
+    let query: Query = {
         sort: this.sortBy,
-      }
+      };
 
       if (this.searchQuery) {
         query = {

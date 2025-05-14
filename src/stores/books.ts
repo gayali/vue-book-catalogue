@@ -1,15 +1,7 @@
 import { defineStore } from 'pinia'
+import type { Book } from '@/interfaces/Book'
+import type { Query } from '@/interfaces/Query'
 
-interface Book {
-  id: number
-  title: string
-  summary: string
-  authors: string[]
-  summaries: string
-  subjects: string[]
-  bookshelves: string[]
-  languages: string[]
-}
 const booksURL = 'https://gutendex.com/books/'
 
 export const useBooksStore = defineStore('books', {
@@ -36,8 +28,12 @@ export const useBooksStore = defineStore('books', {
     setBooksCount(count: number) {
       this.booksCount = count
     },
-    async searchBooks(query: Record<string, string>) {
-      let queryString = new URLSearchParams(query).toString()
+    async searchBooks(query: Query) {
+      const filteredQuery = Object.fromEntries(
+        Object.entries(query).filter(([, value]) => value !== undefined),
+      ) as Record<string, string>
+
+      let queryString = new URLSearchParams(filteredQuery).toString()
       queryString = queryString.replace('%2C', ',')
       const url = `${booksURL}?${queryString}`
       this.fetchBooks(url)

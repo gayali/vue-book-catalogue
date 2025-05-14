@@ -1,11 +1,11 @@
 <template>
   <div class="container mt-4">
-
-          <div v-show="!loading && booksCount > 0" class="mb-4">
-            <small> showing results over {{ booksCount }} books </small>
-            <small v-if="searchQuery" class="text-muted">for <strong>{{ searchQuery }}</strong></small>
-          </div>
-
+    <div v-show="!loading && booksCount > 0" class="mb-4">
+      <small> showing results over {{ booksCount }} books </small>
+      <small v-if="searchQuery" class="text-muted"
+        >for <strong>{{ searchQuery }}</strong></small
+      >
+    </div>
 
     <!-- Loading Spinner -->
     <div
@@ -106,11 +106,7 @@
             ></button>
           </div>
           <div class="modal-body">
-            <img
-              :src="book.formats?.['image/jpeg']"
-              class="img-fluid mb-3"
-              :alt="book.title"
-            />
+            <img :src="book.formats?.['image/jpeg']" class="img-fluid mb-3" :alt="book.title" />
             <p>
               <strong>Author:</strong> {{ book.authors?.[0]?.name || 'Unknown Author' }} ({{
                 book.authors?.[0]?.birth_year || 'N/A'
@@ -165,6 +161,9 @@
 </template>
 
 <script lang="ts">
+import type { Book } from '@/interfaces/Book';
+import type { Language } from '@/interfaces/Language';
+
 export default {
   name: 'BooksComponent',
   props: {
@@ -173,19 +172,19 @@ export default {
       default: false,
     },
     books: {
-      type: Array,
+      type: Array as () => Book[],
       default: () => [],
     },
     languageNames: {
-      type: Object,
-      default: () => ({}),
+      type: Array as () => Language[],
+      default: () => [],
     },
-    booksCount:{
+    booksCount: {
       type: Number,
       default: 0,
     },
     languagesList: {
-      type: Array,
+      type: Array as () => Language[],
       default: () => [
         { code: 'en', title: 'English' },
         { code: 'fr', title: 'French' },
@@ -198,6 +197,10 @@ export default {
         { code: 'ja', title: 'Japanese' },
         { code: 'ko', title: 'Korean' },
       ],
+    },
+    searchQuery: {
+      type: String,
+      default: '',
     },
   },
 }
