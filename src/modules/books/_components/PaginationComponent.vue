@@ -1,6 +1,6 @@
 <template>
-  <div class="mt-4 py-4 text-center" v-show="!loading">
-    <div class="d-flex justify-content-center gap-3">
+  <div class="my-4 py-4 text-center " v-show="!loading">
+    <div class="d-flex justify-content-center gap-3 mb-4 pb-4">
       <button
         type="button"
         @click="$emit('previous-page')"
